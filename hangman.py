@@ -30,6 +30,77 @@ def hangman():
         print('Current word: ', ' '.join(word_list))
 
         user_letter = input('Guess a letter: ').upper()
+        
+        
+        def get_hangman_stage(remaining_attempts):
+            max_attempts = 6
+            stages = ["""
+                ------
+                |    |
+                |
+                |
+                |
+                |
+                |
+            ------------
+            """, """
+                ------
+                |    |
+                |    O
+                |
+                |
+                |
+                |
+            ------------
+            """, """
+                ------
+                |    |
+                |    O
+                |    |
+                |    |
+                |
+                |
+            ------------
+            """, """
+                ------
+                |    |
+                |    O
+                |    |
+                |    |
+                |   /
+                |
+            ------------
+            """, """
+                ------
+                |    |
+                |    O
+                |    |
+                |    |
+                |   / \\
+                |
+            ------------
+            """, """
+                ------
+                |    |
+                |    O
+                |  --|
+                |    |
+                |   / \\
+                |
+            ------------
+            """, """
+                ------
+                |    |
+                |    O
+                |  --|--
+                |    |
+                |   / \\
+                |
+            ------------
+            """]
+            return print(stages[max_attempts - remaining_attempts])
+        
+        
         if user_letter in alphabet - used_letters:
             used_letters.add(user_letter)
             if user_letter in word_letters:
@@ -39,6 +110,7 @@ def hangman():
             else:
                 lives = lives - 1  # takes away a life if wrong
                 print('\nYour letter,', user_letter, 'is not in the word.')
+                get_hangman_stage(lives)
 
         elif user_letter in used_letters:
             print('\nYou have already used that letter. Guess another letter.')
@@ -48,8 +120,9 @@ def hangman():
 
     # gets here when len(word_letters) == 0 OR when lives == 0
     if lives == 0:
-        print(lives_visual_dict[lives])
+        
         print('You died, sorry. The word was', word)
+        get_hangman_stage(lives)
     else:
         print('YAY! You guessed the word', word, '!!')
 
